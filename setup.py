@@ -99,7 +99,7 @@ setup(
         'Topic :: Multimedia :: Sound/Audio :: Speech',
 
         # Pick your license as you wish
-        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+        'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
         
         # Language support
         'Natural Language :: Dutch',
@@ -125,8 +125,7 @@ setup(
     #
     #   py_modules=["my_module"],
     #
-    py_modules=["caissa"],
-    #packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
+    packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
 
     # This field lists other packages that your project depends on to run.
     # Any package you put here will be installed by pip when your project is
@@ -134,7 +133,7 @@ setup(
     #
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    #install_requires=['peppercorn'],  # Optional
+    install_requires=['pocketsphinx', 'speake3'],  # Optional
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
@@ -172,11 +171,11 @@ setup(
     #
     # For example, the following would provide a command called `sample` which
     # executes the function `main` from this package when invoked:
-    #entry_points={  # Optional
-    #    'console_scripts': [
-    #        'sample=sample:main',
-    #    ],
-    #},
+    entry_points={  # Optional
+        'console_scripts': [
+            'caissa=caissa.__main__:main',
+        ],
+    },
 
     # List additional URLs that are relevant to your project as a dict.
     #
@@ -189,6 +188,6 @@ setup(
     # what's used to render the link text on PyPI.
     project_urls={  # Optional
         'Bug Reports': 'https://github.com/ddobbelaere/caissa/issues',
-        'Source': 'https://github.com/ddobbelaere/caissa/',
+        'Source': 'https://github.com/ddobbelaere/caissa',
     },
 )
