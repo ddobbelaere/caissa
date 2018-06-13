@@ -1,9 +1,18 @@
+sudo: required
+
 language: python
+
 python:
   - "3.6"
-# command to install dependencies
+
+# install dependencies
+before_install:
+  - sudo apt-get install -y swig libpulse-dev
+
+# install project
 install:
   - pip install .
+
 # command to run tests
 script:
   - pytest
