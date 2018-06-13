@@ -1,12 +1,14 @@
 Caissa
 ======
 
-Caissa is an intelligent voice-controlled personal assistant.
+.. image:: https://travis-ci.org/ddobbelaere/caissa.svg?branch=master
+    :target: https://travis-ci.org/ddobbelaere/caissa
 
-Currently she is able to play your favorite internet radio.
-  
+Caissa is an intelligent voice-controlled personal assistant (still under development).
+
 Some of her upcoming skills include
 
+  - play your favorite internet radio
   - play chess
   - monitor live chess games
   - help you study foreign languages

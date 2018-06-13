@@ -17,3 +17,11 @@ install:
 script:
 #  - pytest
    - true
+
+deploy:
+  provider: pypi
+  user: "ddobbelaere"
+  password:
+   secure: "REa5tHSvT0G6npC/MPVeIsT3mZIgOMEUH991IS4TOEdt9pkabY+V7YWRBvTyj8+n05ITkOj6OQXwWTz+VvkjCDtSNxkrmffnFcxJHAj1/bqYp1xgKc6Q8UCjWge5pYSFoVR6BFPiChQ1WCXqJINbZK6qfTDDNlxaVv/DcG62JkwvgNEY9zfxpODweFJ2HoYPafYNF249V8ytQGRgvbYRbfYMUpykyK0Zrlmim5+o8u2TmgL63U0w1MtDLGNfgeXYfNzipKzPde41sMIGczcujrySwaJN4qOSXT+mUGhpTWtpIPE23sKrsFWGOcWHzt5KPY0F0rNRXQQMtMvPkDagVcFRReaCu9hvlWZURUUxS0wrnfbfGLb2bnuBd5vT5LtKIdRpyRzb/0ooltb5zOVbkT7BUfzB48EPJJ0eBXpASya4fNhUdjxyKvCAbjDbv04XukoB1GMScQMOh37bzqRKUuNmUQz9EvPUoEpiaKtgfBJqqZeKR6R0h+KHpAxaqruK9MmC/Rf48lAFLgEuGOUNh7ltsn7mTRL9DGxokdWeoljDcl3iiaSeb/2OkpcfKnnJj6qQs9glY2zs+3gHhWkjxff1cG7RUC+eebDrFnS4MvqBMAi5ejckwRl7xmtDcmAedXrQ9gt5c6XYzcY9IfDqRF/j7DR6bjdEWI3u8s0DTCg="
+  on:
+    tags: true
