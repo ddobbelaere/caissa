@@ -47,3 +47,55 @@ class Caissa:
         """
         
         self.brain.think_forever()
+
+
+"""
+@startuml
+
+skinparam ArrowColor DarkSlateGray
+skinparam defaultFontName Purisa
+skinparam handwritten true
+
+skinparam NodeSep 5
+skinparam RankSep 10
+
+skinparam frame {
+    BackgroundColor LightGreen
+    BorderColor DarkSlateGray
+    FontSize 25
+    FontStyle bold
+}
+
+skinparam rectangle {
+    BackgroundColor AliceBlue
+    BorderColor DarkSlateGray
+    RoundCorner 20
+    FontStyle italic
+}
+
+actor User
+
+frame " Caissa " {
+    rectangle Senses {
+        () Hearing
+        () Sense
+        () Speech
+    }
+    
+    rectangle Brain {
+        queue "Event Queue" as EventQueue
+        
+        rectangle Skills {
+            file Chess
+            file Radio
+            file Weather
+        }
+    }
+}
+
+User <-down(0)--------..> Senses
+Senses -up-..> EventQueue
+Skills ..-up-> EventQueue
+
+@enduml
+"""

@@ -12,3 +12,7 @@ Some of her upcoming skills include
   - play chess
   - monitor live chess games
   - help you study foreign languages
+  
+.. image:: doc/caissa.png
+    :align: middle
+    :alt: Overview of the different components of Caissa
