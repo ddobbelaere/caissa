@@ -14,5 +14,5 @@ Some of her upcoming skills include
   - help you study foreign languages
   
 .. image:: doc/caissa.png
-    :align: middle
+    :align: center
     :alt: Overview of the different components of Caissa
