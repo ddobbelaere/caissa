@@ -17,30 +17,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import logging
 
-def main(args=None):
+
+class Event:
     """
-    Bring Caissa to life
+    An event that has happened in Caissa.
     """
     
-    from . import Caissa
-    
-    import logging
-    import sys
-    
-    if args is None:
-        args = sys.argv[1:]
-    
-    # set up logging
-    logging_level = logging.DEBUG if "--debug" in args else logging.WARNING
-    logging.basicConfig(level=logging_level)
-    
-    logger = logging.getLogger(__name__)
-    logger.debug("bringing Caissa to life")
-    
-    caissa = Caissa()
-    caissa.live_forever()
-
-
-if __name__ == "__main__":
-    main()
+    def __init__(self):
+        logger = logging.getLogger(__name__)
+        logger.debug("Constructed new event.")

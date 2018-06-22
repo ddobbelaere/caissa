@@ -17,6 +17,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+from ..brain.events import Event
+
 import threading
 
 
@@ -62,3 +64,6 @@ class Sense:
                 return
                 
             print("{:X}".format(ord(k)), flush=True)
+            
+            # fire new event
+            e = Event()
