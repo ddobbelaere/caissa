@@ -25,14 +25,16 @@ def main(args=None):
     
     from . import Caissa
     
+    import argparse
     import logging
-    import sys
     
-    if args is None:
-        args = sys.argv[1:]
+    # parse arguments
+    parser = argparse.ArgumentParser(description="Caissa voice-controlled personal assistant")
+    parser.add_argument("--debug", action="store_true", help="enable debug output")
+    args = parser.parse_args(args)
     
     # set up logging
-    logging_level = logging.DEBUG if "--debug" in args else logging.WARNING
+    logging_level = logging.DEBUG if args.debug else logging.WARNING
     logging.basicConfig(level=logging_level)
     
     logger = logging.getLogger(__name__)

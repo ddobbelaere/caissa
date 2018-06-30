@@ -15,8 +15,7 @@ install:
 
 # command to run tests
 script:
-#  - pytest
-   - true
+  - pytest tests
 
 deploy:
   provider: pypi

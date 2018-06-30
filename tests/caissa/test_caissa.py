@@ -17,47 +17,42 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from ..brain.events import Event
 
-import threading
-
-
-class Sense:
+class TestCaissa:
     """
-    Caissa's sense
+    Test Caissa class
     """
     
-    def __init__(self):
+    def test_main(self):
         """
-        Constructor
-        """
-        
-        # initialize threads
-        stdin_thread = threading.Thread(target=self.stdin_listener_thread,
-                                        daemon=True)
-        
-        # start the threads
-        stdin_thread.start()
-        
-        # join the threads
-        stdin_thread.join()
-        
-        # the listener thread has stopped,
-        # hence the user hit CTRL+D or CTRL+Z, exit
-        import sys
-        sys.exit(0)
-    
-    def stdin_listener_thread(self):
-        """
-        Listen to input.
+        Test main application
         """
         
-        while True:
-            s = input()
+        import subprocess
+        
+        args = "--debug"
+        
+        proc = subprocess.Popen(
+            "/usr/bin/env python3 -m caissa " + args,
+            shell=True,
+            stdin=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            universal_newlines=True)
+        
+        try:
+            outs, errs = proc.communicate("quit", timeout=1)
+        
+            # check if all went well
+            assert "bringing Caissa to life" in errs
             
-            if s == "quit":
-                # the user wants to quit program, stop thread
-                return
+        except subprocess.TimeoutExpired:
+            import pytest
             
-            # fire new event
-            e = Event()
+            pytest.fail("Process did not exit cleanly (timeout reached)!")
+
+
+if __name__ == "__main__":
+    tester = TestCaissa()
+    tester.test_main()
+
