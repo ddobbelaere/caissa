@@ -30,6 +30,22 @@ class Event:
         logger.debug("Constructed new event.")
 
 
+class InfraredInputEvent(Event):
+    """
+    An text input event
+    """
+    
+    def __init__(self, cmd):
+        logger = logging.getLogger(__name__)
+        logger.debug("Constructed new infrared input event \"{}\"".format(cmd))
+        
+        self._cmd = cmd
+    
+    @property
+    def text(self):
+        return self._cmd
+
+
 class TextInputEvent(Event):
     """
     An text input event

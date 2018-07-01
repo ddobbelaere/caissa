@@ -17,8 +17,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from ..brain.events import TextInputEvent
+from ..brain.events import InfraredInputEvent, TextInputEvent
 
+import lirc
 import threading
 
 
@@ -38,6 +39,9 @@ class Sense:
         # initialize threads
         self.stdin_thread = threading.Thread(target=self.stdin_listener_thread,
                                              daemon=True)
+        
+        self.lirc_thread = threading.Thread(target=self.lirc_listener_thread,
+                                            daemon=True)
     
     def start(self, event_queue):
         """
@@ -65,3 +69,16 @@ class Sense:
             
             # add input event to queue
             self.event_queue.put(TextInputEvent(s))
+    
+    def lirc_listener_thread(self):
+        """
+        Listen to infrared commands
+        """
+        
+        sockid = lirc.init("caissa")
+        
+        while True:
+            cmd = lirc.nextcode()
+            
+            # add input event to queue
+            self.event_queue.put(InfraredInputEvent(cmd[0]))
