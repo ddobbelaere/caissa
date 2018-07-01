@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import logging
 import os
+import psutil
 import subprocess
 import threading
 import time
@@ -103,7 +104,14 @@ class Radio(Skill):
         
         # terminate a possibly active player process
         if self.is_playing:
-            self.proc.terminate()
+            process = psutil.Process(self.proc.pid)
+            
+            for child_process in process.children(recursive=True):
+                child_process.kill()
+            
+            process.kill()
+            
+            self.proc = None
     
     def play(self, radio_station_id=None):
         """
@@ -121,7 +129,7 @@ class Radio(Skill):
         # first stop playing
         self.stop_playing()
         
-        cmd = "while true; do exec mpg123 '{}'; sleep 1; done".format(
+        cmd = "while true; do mpg123 '{}'; sleep 1; done".format(
             station_params["url"])
         self.proc = subprocess.Popen(cmd,
                                      shell=True,
