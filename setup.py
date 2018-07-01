@@ -126,6 +126,11 @@ setup(
     #   py_modules=["my_module"],
     #
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
+    
+    #If set to True, this tells setuptools to automatically include
+    #any data files it finds inside your package directories
+    # that are specified by your MANIFEST.in file
+    include_package_data=True,
 
     # This field lists other packages that your project depends on to run.
     # Any package you put here will be installed by pip when your project is
@@ -133,7 +138,7 @@ setup(
     #
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['oyaml', 'pocketsphinx', 'speake3'],  # Optional
+    install_requires = ['oyaml', 'pocketsphinx', 'python-lirc', 'speake3'],  # Optional
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
