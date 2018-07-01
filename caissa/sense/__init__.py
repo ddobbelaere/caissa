@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 from ..brain.events import InfraredInputEvent, TextInputEvent
 
 import lirc
+import logging
 import threading
 
 
@@ -42,6 +43,9 @@ class Sense:
         
         self.lirc_thread = threading.Thread(target=self.lirc_listener_thread,
                                             daemon=True)
+        
+        # initialize logger
+        self.logger = logging.getLogger(__name__)
     
     def start(self, event_queue):
         """
@@ -76,10 +80,14 @@ class Sense:
         Listen to infrared commands
         """
         
-        sockid = lirc.init("caissa")
-        
-        while True:
-            cmd = lirc.nextcode()
-            
-            # add input event to queue
-            self.event_queue.put(InfraredInputEvent(cmd[0]))
+        try:
+            lirc.init("caissa")
+        except lirc.InitError:
+            self.logger.warning("Exception occurred while trying to "
+                                "initialize infrared listener thread")
+        else:
+            while True:
+                cmd = lirc.nextcode()
+                
+                # add input event to queue
+                self.event_queue.put((InfraredInputEvent(cmd[0]).split(",")[0]).strip())
