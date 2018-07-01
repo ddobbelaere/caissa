@@ -87,7 +87,10 @@ class Sense:
                                 "initialize infrared listener thread")
         else:
             while True:
-                cmd = lirc.nextcode()
+                code_list = lirc.nextcode()
                 
-                # add input event to queue
-                self.event_queue.put((InfraredInputEvent(cmd[0]).split(",")[0]).strip())
+                for code in code_list:
+                    key_name = code.split(",")[0].strip()
+                
+                    # add input event to queue
+                    self.event_queue.put(InfraredInputEvent(key_name))
