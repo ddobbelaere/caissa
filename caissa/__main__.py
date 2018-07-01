@@ -38,7 +38,7 @@ def main(args=None):
     logging.basicConfig(level=logging_level)
     
     logger = logging.getLogger(__name__)
-    logger.debug("bringing Caissa to life")
+    logger.debug("Bringing Caissa to life")
     
     caissa = Caissa()
     caissa.live_forever()

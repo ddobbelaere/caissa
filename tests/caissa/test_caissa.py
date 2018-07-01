@@ -44,7 +44,7 @@ class TestCaissa:
             outs, errs = proc.communicate("quit", timeout=1)
         
             # check if all went well
-            assert "bringing Caissa to life" in errs
+            assert "Bringing Caissa to life" in errs
             
         except subprocess.TimeoutExpired:
             import pytest

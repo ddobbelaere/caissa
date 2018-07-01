@@ -17,7 +17,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import logging
+import queue
 import time
+
+from .events import *
 
 
 class Brain:
@@ -30,13 +34,34 @@ class Brain:
     """
     
     def __init__(self, hearing, sense, speech):
+        """
+        Constructor
+        """
+        
         # store references to senses
         self.hearing = hearing
         self.sense = sense
         self.speech = speech
         
+        # initialize event queue
+        self._event_queue = queue.Queue()
+        
+        # initialize logger
+        self.logger = logging.getLogger(__name__)
+        
         # initialize all skills
         self._init_skills()
+        
+        # start senses
+        self.sense.start(self.event_queue)
+    
+    @property
+    def event_queue(self):
+        """
+        Return reference to event queue
+        """
+        
+        return self._event_queue
     
     def _init_skills(self):
         """
@@ -51,5 +76,12 @@ class Brain:
         """
         
         while True:
-            #self.speech.say("Hello, my name is Caiissa.")
-            time.sleep(1)
+            # process the next event
+            e = self.event_queue.get()
+            
+            if type(e) is TextInputEvent:
+                self.logger.debug("Processing text input event \"{}\"".format(e.text))
+                
+                if e.text == "exit":
+                    import sys
+                    sys.exit(0)

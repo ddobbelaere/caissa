@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from ..brain.events import Event
+from ..brain.events import TextInputEvent
 
 import threading
 
@@ -32,32 +32,36 @@ class Sense:
         Constructor
         """
         
+        # initialize event queue reference
+        self.event_queue = None
+        
         # initialize threads
-        stdin_thread = threading.Thread(target=self.stdin_listener_thread,
-                                        daemon=True)
+        self.stdin_thread = threading.Thread(target=self.stdin_listener_thread,
+                                             daemon=True)
+    
+    def start(self, event_queue):
+        """
+        Start sensing
+        """
+        
+        # store reference to event queue
+        self.event_queue = event_queue
         
         # start the threads
-        stdin_thread.start()
-        
-        # join the threads
-        stdin_thread.join()
-        
-        # the listener thread has stopped,
-        # hence the user hit CTRL+D or CTRL+Z, exit
-        import sys
-        sys.exit(0)
+        self.stdin_thread.start()
     
     def stdin_listener_thread(self):
         """
-        Listen to input.
+        Listen to input
         """
         
         while True:
-            s = input()
-            
-            if s == "quit":
-                # the user wants to quit program, stop thread
+            try:
+                s = input()
+            except EOFError:
+                # exit
+                self.event_queue.put(TextInputEvent("exit"))
                 return
             
-            # fire new event
-            e = Event()
+            # add input event to queue
+            self.event_queue.put(TextInputEvent(s))
