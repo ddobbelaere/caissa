@@ -36,7 +36,7 @@ class Brain:
         - controls the interactions between skills and senses
     """
     
-    def __init__(self, hearing, sense, speech):
+    def __init__(self, args, hearing, sense, speech):
         """
         Constructor
         """
@@ -53,7 +53,7 @@ class Brain:
         self.logger = logging.getLogger(__name__)
         
         # initialize all skills
-        self._init_skills()
+        self._init_skills(args)
         
         # start senses
         self.sense.start(self.event_queue)
@@ -66,7 +66,7 @@ class Brain:
         
         return self._event_queue
     
-    def _init_skills(self):
+    def _init_skills(self, args):
         """
         Initialize all skills
         """
@@ -87,7 +87,7 @@ class Brain:
                         cls = getattr(module, attr)
                         if issubclass(cls, Skill) and attr != "Skill":
                             self.logger.debug("Loading skill \"{}\" ".format(attr))
-                            self.skills.append(cls())
+                            self.skills.append(cls(args))
                     except TypeError:
                         pass
             except:

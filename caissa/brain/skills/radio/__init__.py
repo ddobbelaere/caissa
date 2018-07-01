@@ -55,6 +55,9 @@ class Radio(Skill):
         # initialize other variables
         self.proc = None
         self.current_id = 0
+        
+        if params.play_radio:
+            self.play()
     
     def __del__(self):
         """
