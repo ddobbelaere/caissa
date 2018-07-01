@@ -18,6 +18,12 @@ stations:
             en: klara
             nl: klara
             
+    KLARA_CONTINUO:
+        url: http://icecast.vrtcdn.be/klaracontinuo-high.mp3
+        name:
+            en: klara continuo
+            nl: klara continuo
+            
     STUDIO_BRUSSELS:
         url: http://icecast.vrtcdn.be/stubru-high.mp3
         name:

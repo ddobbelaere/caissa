@@ -18,10 +18,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import logging
+import os
+import pkgutil
 import queue
 import time
 
 from .events import *
+from .skills import *
 
 
 class Brain:
@@ -68,13 +71,36 @@ class Brain:
         Initialize all skills
         """
         
-        pass
+        self.skills = []
+        
+        skills_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                   "skills")
+        
+        self.logger.debug("Searching for skills in \"{}\"".format(skills_path))
+        for module_finder, name, is_pkg in pkgutil.walk_packages([skills_path]):
+            try:
+                loader = module_finder.find_module(name)
+                module = loader.load_module(name)
+                
+                for attr in dir(module):
+                    try:
+                        cls = getattr(module, attr)
+                        if issubclass(cls, Skill) and attr != "Skill":
+                            self.logger.debug("Loading skill \"{}\" ".format(attr))
+                            self.skills.append(cls())
+                    except TypeError:
+                        pass
+            except:
+                self.logger.debug("Exception occurred while trying to "
+                                  "load skill \"{}\"".format(name),
+                                  exc_info=True)
     
     def think_forever(self):
         """
         Think forever
         """
         
+        # event loop
         while True:
             # process the next event
             e = self.event_queue.get()
@@ -85,3 +111,7 @@ class Brain:
                 if e.text == "exit":
                     import sys
                     sys.exit(0)
+            
+            # send event to each skill
+            for skill in self.skills:
+                skill.handle_event(e)

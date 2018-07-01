@@ -19,7 +19,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from .brain import Brain
 from .sense import Sense
-from .skills import Skill
 from .speech import Speech
 from .hearing import *
 
