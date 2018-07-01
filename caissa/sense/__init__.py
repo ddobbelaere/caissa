@@ -53,6 +53,7 @@ class Sense:
         
         # start the threads
         self.stdin_thread.start()
+        self.lirc_thread.start()
     
     def stdin_listener_thread(self):
         """
