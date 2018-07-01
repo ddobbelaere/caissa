@@ -42,7 +42,7 @@ class InfraredInputEvent(Event):
         self._cmd = cmd
     
     @property
-    def text(self):
+    def cmd(self):
         return self._cmd
 
 

@@ -81,11 +81,13 @@ class Sense:
         """
         
         try:
-            lirc.init("caissa")
+            lirc.init("caissa", blocking=False)
         except lirc.InitError:
             self.logger.warning("Exception occurred while trying to "
                                 "initialize infrared listener thread")
         else:
+            import time
+            
             while True:
                 code_list = lirc.nextcode()
                 
@@ -94,3 +96,5 @@ class Sense:
                 
                     # add input event to queue
                     self.event_queue.put(InfraredInputEvent(key_name))
+                
+                time.sleep(0.05)
