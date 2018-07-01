@@ -16,6 +16,6 @@ Some of her upcoming skills include
   - monitor live chess games
   - help you study foreign languages
   
-.. image:: https://travis-ci.org/ddobbelaere/caissa/doc/caissa.png
+.. image:: https://github.com/ddobbelaere/caissa/raw/master/doc/caissa.png
     :align: center
     :alt: Overview of the different components of Caissa
