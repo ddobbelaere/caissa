@@ -29,7 +29,7 @@ class Sense:
     Caissa's sense
     """
     
-    def __init__(self):
+    def __init__(self, args):
         """
         Constructor
         """
@@ -46,6 +46,9 @@ class Sense:
         
         # initialize logger
         self.logger = logging.getLogger(__name__)
+        
+        # behavior on end-of-file
+        self.exit_after_eof = not args.daemon
     
     def start(self, event_queue):
         """
@@ -68,8 +71,11 @@ class Sense:
             try:
                 s = input()
             except EOFError:
-                # exit
-                self.event_queue.put(TextInputEvent("exit"))
+                if self.exit_after_eof:
+                    # exit on end-of-file
+                    self.event_queue.put(TextInputEvent("exit"))
+                
+                # stop listening after end-of-file
                 return
             
             # add input event to queue
