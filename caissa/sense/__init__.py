@@ -19,7 +19,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from ..brain.events import InfraredInputEvent, TextInputEvent
 
-import lirc
 import logging
 import threading
 
@@ -87,20 +86,27 @@ class Sense:
         """
         
         try:
-            lirc.init("caissa", blocking=False)
-        except lirc.InitError:
-            self.logger.warning("Exception occurred while trying to "
-                                "initialize infrared listener thread")
+            import lirc
+        except ImportError:
+            self.logger.warning("Unable to import module \"lirc\". "
+                                "If you want infrared remote control, "
+                                "please install \"python-lirc\".")
         else:
-            import time
-            
-            while True:
-                code_list = lirc.nextcode()
+            try:
+                lirc.init("caissa", blocking=False)
+            except lirc.InitError:
+                self.logger.warning("Exception occurred while trying to "
+                                    "initialize infrared listener thread")
+            else:
+                import time
                 
-                for code in code_list:
-                    key_name = code.split(",")[0].strip()
-                
-                    # add input event to queue
-                    self.event_queue.put(InfraredInputEvent(key_name))
-                
-                time.sleep(0.05)
+                while True:
+                    code_list = lirc.nextcode()
+                    
+                    for code in code_list:
+                        key_name = code.split(",")[0].strip()
+                    
+                        # add input event to queue
+                        self.event_queue.put(InfraredInputEvent(key_name))
+                    
+                    time.sleep(0.05)
