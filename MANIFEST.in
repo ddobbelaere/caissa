@@ -1,5 +1,5 @@
-# Include the README
-include *.rst
+# Include the Markdown files
+include *.md
 
 # Include documentation files
 recursive-include doc *.png
