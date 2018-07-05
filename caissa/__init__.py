@@ -27,24 +27,24 @@ class Caissa:
     """
     Caissa voice-controlled personal assistant
     """
-    
+
     def __init__(self, args):
         """
         Construct and connect Caissa's vital organs
         """
-        
+
         # initialize senses
         sense = Sense(args=args)
         speech = Speech()
-        
+
         # initialize brain
         self.brain = Brain(args=args, hearing=None, sense=sense, speech=speech)
-    
+
     def live_forever(self):
         """
         Bring Caissa to life
         """
-        
+
         self.brain.think_forever()
 
 

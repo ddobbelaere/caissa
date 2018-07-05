@@ -22,16 +22,16 @@ class TestCaissa:
     """
     Test Caissa class
     """
-    
+
     def test_main(self):
         """
         Test main application
         """
-        
+
         import subprocess
-        
+
         args = "--debug"
-        
+
         proc = subprocess.Popen(
             "/usr/bin/env python3 -m caissa " + args,
             shell=True,
@@ -39,20 +39,19 @@ class TestCaissa:
             stderr=subprocess.PIPE,
             stdout=subprocess.PIPE,
             universal_newlines=True)
-        
+
         try:
             outs, errs = proc.communicate("quit", timeout=1)
-        
+
             # check if all went well
             assert "Bringing Caissa to life" in errs
-            
+
         except subprocess.TimeoutExpired:
             import pytest
-            
+
             pytest.fail("Process did not exit cleanly (timeout reached)!")
 
 
 if __name__ == "__main__":
     tester = TestCaissa()
     tester.test_main()
-

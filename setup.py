@@ -100,7 +100,7 @@ setup(
 
         # Pick your license as you wish
         'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
-        
+
         # Language support
         'Natural Language :: Dutch',
         'Natural Language :: English',
@@ -114,7 +114,7 @@ setup(
     # project page. What does your project relate to?
     #
     # Note that this is a string of words separated by whitespace, not a list.
-    #keywords='sample setuptools development',  # Optional
+    # keywords='sample setuptools development',  # Optional
 
     # You can just specify package directories manually here if your project is
     # simple. Or you can use find_packages().
@@ -126,9 +126,9 @@ setup(
     #   py_modules=["my_module"],
     #
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
-    
-    #If set to True, this tells setuptools to automatically include
-    #any data files it finds inside your package directories
+
+    # If set to True, this tells setuptools to automatically include
+    # any data files it finds inside your package directories
     # that are specified by your MANIFEST.in file
     include_package_data=True,
 
@@ -138,7 +138,8 @@ setup(
     #
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires = ['oyaml', 'pocketsphinx', 'psutil', 'speake3'],  # Optional
+    install_requires=['oyaml', 'pocketsphinx',
+                      'psutil', 'speake3'],  # Optional
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
@@ -148,7 +149,7 @@ setup(
     #
     # Similar to `install_requires` above, these must be valid existing
     # projects.
-    #extras_require={  # Optional
+    # extras_require={  # Optional
     #    'dev': ['check-manifest'],
     #    'test': ['coverage'],
     #},
@@ -158,7 +159,7 @@ setup(
     #
     # If using Python 2.6 or earlier, then these have to be included in
     # MANIFEST.in as well.
-    #package_data={  # Optional
+    # package_data={  # Optional
     #    'sample': ['package_data.dat'],
     #},
 
@@ -167,7 +168,7 @@ setup(
     # http://docs.python.org/3.4/distutils/setupscript.html#installing-additional-files
     #
     # In this case, 'data_file' will be installed into '<sys.prefix>/my_data'
-    #data_files=[('my_data', ['data/data_file'])],  # Optional
+    # data_files=[('my_data', ['data/data_file'])],  # Optional
 
     # To provide executable scripts, use entry points in preference to the
     # "scripts" keyword. Entry points provide cross-platform support and allow

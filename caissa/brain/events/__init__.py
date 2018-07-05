@@ -24,7 +24,7 @@ class Event:
     """
     An event that has happened in Caissa
     """
-    
+
     def __init__(self):
         logger = logging.getLogger(__name__)
         logger.debug("Constructed new event.")
@@ -34,13 +34,13 @@ class InfraredInputEvent(Event):
     """
     An text input event
     """
-    
+
     def __init__(self, cmd):
         logger = logging.getLogger(__name__)
         logger.debug("Constructed new infrared input event \"{}\"".format(cmd))
-        
+
         self._cmd = cmd
-    
+
     @property
     def cmd(self):
         return self._cmd
@@ -50,13 +50,13 @@ class TextInputEvent(Event):
     """
     An text input event
     """
-    
+
     def __init__(self, text):
         logger = logging.getLogger(__name__)
         logger.debug("Constructed new text input event \"{}\"".format(text))
-        
+
         self._text = text
-    
+
     @property
     def text(self):
         return self._text

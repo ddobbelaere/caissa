@@ -21,7 +21,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 class Skill:
     """
     Skill base class
-    
+
     Every voice-controlled skill must subclass this class.
     A skill is contained in Caissa's brain and is connected
     to the senses via the brain.
@@ -31,5 +31,5 @@ class Skill:
         """
         Constructor
         """
-        
+
         pass

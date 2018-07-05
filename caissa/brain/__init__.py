@@ -30,63 +30,64 @@ from .skills import *
 class Brain:
     """
     The brain of Caissa
-    
+
         - interacts with senses
         - holds skills
         - controls the interactions between skills and senses
     """
-    
+
     def __init__(self, args, hearing, sense, speech):
         """
         Constructor
         """
-        
+
         # store references to senses
         self.hearing = hearing
         self.sense = sense
         self.speech = speech
-        
+
         # initialize event queue
         self._event_queue = queue.Queue()
-        
+
         # initialize logger
         self.logger = logging.getLogger(__name__)
-        
+
         # initialize all skills
         self._init_skills(args)
-        
+
         # start senses
         self.sense.start(self.event_queue)
-    
+
     @property
     def event_queue(self):
         """
         Return reference to event queue
         """
-        
+
         return self._event_queue
-    
+
     def _init_skills(self, args):
         """
         Initialize all skills
         """
-        
+
         self.skills = []
-        
+
         skills_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                    "skills")
-        
+
         self.logger.debug("Searching for skills in \"{}\"".format(skills_path))
         for module_finder, name, is_pkg in pkgutil.walk_packages([skills_path]):
             try:
                 loader = module_finder.find_module(name)
                 module = loader.load_module(name)
-                
+
                 for attr in dir(module):
                     try:
                         cls = getattr(module, attr)
                         if issubclass(cls, Skill) and attr != "Skill":
-                            self.logger.debug("Loading skill \"{}\" ".format(attr))
+                            self.logger.debug(
+                                "Loading skill \"{}\" ".format(attr))
                             self.skills.append(cls(args))
                     except TypeError:
                         pass
@@ -94,24 +95,25 @@ class Brain:
                 self.logger.debug("Exception occurred while trying to "
                                   "load skill \"{}\"".format(name),
                                   exc_info=True)
-    
+
     def think_forever(self):
         """
         Think forever
         """
-        
+
         # event loop
         while True:
             # process the next event
             e = self.event_queue.get()
-            
+
             if type(e) is TextInputEvent:
-                self.logger.debug("Processing text input event \"{}\"".format(e.text))
-                
+                self.logger.debug(
+                    "Processing text input event \"{}\"".format(e.text))
+
                 if e.text == "exit":
                     import sys
                     sys.exit(0)
-            
+
             # send event to each skill
             for skill in self.skills:
                 skill.handle_event(e)

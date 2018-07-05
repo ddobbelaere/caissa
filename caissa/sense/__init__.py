@@ -27,45 +27,45 @@ class Sense:
     """
     Caissa's sense
     """
-    
+
     def __init__(self, args):
         """
         Constructor
         """
-        
+
         # initialize event queue reference
         self.event_queue = None
-        
+
         # initialize threads
         self.stdin_thread = threading.Thread(target=self.stdin_listener_thread,
                                              daemon=True)
-        
+
         self.lirc_thread = threading.Thread(target=self.lirc_listener_thread,
                                             daemon=True)
-        
+
         # initialize logger
         self.logger = logging.getLogger(__name__)
-        
+
         # behavior on end-of-file
         self.exit_after_eof = not args.daemon
-    
+
     def start(self, event_queue):
         """
         Start sensing
         """
-        
+
         # store reference to event queue
         self.event_queue = event_queue
-        
+
         # start the threads
         self.stdin_thread.start()
         self.lirc_thread.start()
-    
+
     def stdin_listener_thread(self):
         """
         Listen to input
         """
-        
+
         while True:
             try:
                 s = input()
@@ -73,18 +73,18 @@ class Sense:
                 if self.exit_after_eof:
                     # exit on end-of-file
                     self.event_queue.put(TextInputEvent("exit"))
-                
+
                 # stop listening after end-of-file
                 return
-            
+
             # add input event to queue
             self.event_queue.put(TextInputEvent(s))
-    
+
     def lirc_listener_thread(self):
         """
         Listen to infrared commands
         """
-        
+
         try:
             import lirc
         except ImportError:
@@ -99,14 +99,14 @@ class Sense:
                                     "initialize infrared listener thread")
             else:
                 import time
-                
+
                 while True:
                     code_list = lirc.nextcode()
-                    
+
                     for code in code_list:
                         key_name = code.split(",")[0].strip()
-                    
+
                         # add input event to queue
                         self.event_queue.put(InfraredInputEvent(key_name))
-                    
+
                     time.sleep(0.05)

@@ -29,7 +29,7 @@ class Speech:
         """
         Constructor
         """
-        
+
         # define engine language options
         self.lang_options = {
             "en": {
@@ -42,26 +42,26 @@ class Speech:
                 "speed": "100"
             }
         }
-        
+
         # instantiate text to speech engines for each language
         self.engines = {lang: speake3.Speake() for lang in self.lang_options}
-        
+
         # set engine options
         for lang in self.lang_options:
             for option, value in self.lang_options[lang].items():
                 self.engines[lang].set(option, value)
-        
+
         # store default language
         self.default_lang = default_lang
-        
+
     def say(self, message, lang=None):
         """
         Say the given message
         """
-        
+
         if lang is None:
             lang = self.default_lang
-        
+
         self.engines[lang].say(message)
         self.engines[lang].talkback()
 
@@ -72,7 +72,7 @@ if __name__ == "__main__":
     speech = Speech("en")
     speech.say("Hello, my name is Caiissa.")
     speech.say("How are you doing?")
-    
+
     speech = Speech("nl")
     speech.say("Hallo, ik heet Caïissa.")
     speech.say("Hoe gaat het met U?")
