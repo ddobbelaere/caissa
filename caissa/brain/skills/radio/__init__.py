@@ -73,7 +73,7 @@ class Radio(Skill):
         """
 
         if type(e) is TextInputEvent:
-            if e.text == "start radio":
+            if e.text == "play radio":
                 self.play()
             elif e.text == "prev":
                 self.play_prev()
