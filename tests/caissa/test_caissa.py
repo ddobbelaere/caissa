@@ -29,8 +29,9 @@ class TestCaissa:
         """
 
         import subprocess
+        import time
 
-        args = "--debug"
+        args = "--debug --daemon"
 
         proc = subprocess.Popen(
             "/usr/bin/env python3 -m caissa " + args,
@@ -41,10 +42,11 @@ class TestCaissa:
             universal_newlines=True)
 
         try:
-            outs, errs = proc.communicate("quit", timeout=1)
+            outs, errs = proc.communicate("exit", timeout=2)
 
             # check if all went well
             assert "Bringing Caissa to life" in errs
+            assert "Processing text input event \"exit\"" in errs
 
         except subprocess.TimeoutExpired:
             import pytest
