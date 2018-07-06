@@ -5,7 +5,7 @@ language: python
 python:
   - "3.6"
 
-# install dependencies
+# install project dependencies
 before_install:
   - sudo apt-get install -y libasound2-dev liblircclient-dev libpulse-dev swig
 
@@ -13,9 +13,17 @@ before_install:
 install:
   - pip install .
 
-# command to run tests
+# install test dependencies
+before_script:
+  - pip install coveralls pytest pytest-cov
+
+# run tests
 script:
-  - pytest tests
+  - pytest tests --cov=caissa
+
+# push results to coveralls.io
+after_success:
+  - coveralls
 
 deploy:
   provider: pypi
