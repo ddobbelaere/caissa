@@ -114,6 +114,26 @@ class Brain:
                     import sys
                     sys.exit(0)
 
+            elif type(e) is InfraredInputEvent:
+                if e.cmd in ["KEY_VOLUMEUP", "KEY_VOLUMEDOWN"]:
+                    import alsaaudio
+
+                    try:
+                        m = alsaaudio.Mixer()
+                    except alsaaudio.ALSAAudioError:
+                        # try PCM (default mixer on Raspberry PI)
+                        m = alsaaudio.Mixer('PCM')
+                    finally:
+                        direction = 1 if e.cmd == "KEY_VOLUMEUP" else -1
+                        step = 2
+                        new_volume = min(
+                            100, max(0, int(m.getvolume()[0]) + direction * step))
+
+                        self.logger.debug(
+                            "Setting volume to {}%".format(new_volume))
+
+                        m.setvolume(new_volume)
+
             # send event to each skill
             for skill in self.skills:
                 skill.handle_event(e)
