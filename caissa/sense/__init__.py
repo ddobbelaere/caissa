@@ -93,7 +93,10 @@ class Sense:
                                 "please install \"python-lirc\".")
         else:
             try:
-                lirc.init("caissa", blocking=False)
+                from .lirc_config import get_lircrc_filename
+
+                lirc.init("caissa", get_lircrc_filename(), blocking=False)
+
             except lirc.InitError:
                 self.logger.warning("Exception occurred while trying to "
                                     "initialize infrared listener thread")
