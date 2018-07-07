@@ -38,4 +38,4 @@ Install the latest stable release:
 sudo pip3 install caissa
 ```
 
-You can now type `caissa --help` and start.
+You can now type `caissa --help` and start. On Raspberry Pi `sudo caissa` is necessary to access various devices.
