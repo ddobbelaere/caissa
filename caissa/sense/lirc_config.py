@@ -25,7 +25,8 @@ def get_lircrc_filename(prog="caissa"):
     Generate an lircrc file on-the-fly, return its filename
     """
 
-    keys = ["KEY_UP", "KEY_DOWN", "KEY_LEFT", "KEY_RIGHT"]
+    keys = ["KEY_UP", "KEY_DOWN"]
+    keys += ["KEY_NEXT", "KEY_PREVIOUS"]
     keys += ["KEY_PLAY"]
     keys += ["KEY_VOLUMEUP", "KEY_VOLUMEDOWN"]
 
@@ -34,8 +35,8 @@ def get_lircrc_filename(prog="caissa"):
 
     # add key options here
     options = {}
-    options["KEY_VOLUMEUP"] = [("repeat", "100")]
-    options["KEY_VOLUMEDOWN"] = [("repeat", "100")]
+    options["KEY_VOLUMEUP"] = [("repeat", "3")]
+    options["KEY_VOLUMEDOWN"] = [("repeat", "3")]
 
     # generate the file
     fp = tempfile.NamedTemporaryFile(mode="w", delete=False)

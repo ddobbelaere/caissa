@@ -83,7 +83,10 @@ class Radio(Skill):
                 self.stop_playing()
         elif type(e) is InfraredInputEvent:
             if e.cmd == "KEY_PLAY":
-                self.play()
+                if not self.is_playing:
+                    self.play()
+                else:
+                    self.stop_playing()
             elif e.cmd == "KEY_PREVIOUS":
                 self.play_prev()
             elif e.cmd == "KEY_NEXT":
