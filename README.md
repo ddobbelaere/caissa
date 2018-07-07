@@ -29,13 +29,13 @@ Optionally, if you want to talk to Caissa via remote control, install LIRC (by f
 
 ```sh
 sudo apt-get install -y cython gcc liblircclient-dev python3-dev
-pip3 install python-lirc
+sudo pip3 install pyalsaaudio python-lirc
 ```
 
 Install the latest stable release:
 
 ```sh
-pip3 install caissa
+sudo pip3 install caissa
 ```
 
-Make sure that `~/.local/bin` is in your `PATH` environment variable. You can now type `caissa --help` and start.
+You can now type `caissa --help` and start.
