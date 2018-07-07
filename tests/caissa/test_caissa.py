@@ -42,10 +42,14 @@ class TestCaissa:
             universal_newlines=True)
 
         try:
-            outs, errs = proc.communicate("exit", timeout=2)
+            # try out the following sequence of commands
+            commands = ["play radio", "next", "previous", "stop radio", "exit"]
+
+            outs, errs = proc.communicate("\n".join(commands), timeout=2)
 
             # check if all went well
             assert "Bringing Caissa to life" in errs
+            assert "Playing radio station" in errs
             assert "Processing text input event \"exit\"" in errs
 
         except subprocess.TimeoutExpired:
