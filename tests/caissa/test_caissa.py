@@ -31,7 +31,7 @@ class TestCaissa:
         import subprocess
         import time
 
-        args = "--debug --daemon"
+        args = "--debug --daemon --play-radio"
 
         proc = subprocess.Popen(
             "/usr/bin/env python3 -m caissa " + args,
