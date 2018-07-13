@@ -17,6 +17,7 @@ install:
 
 # install test dependencies
 before_script:
+  - sudo apt-get install lirc
   - pip install coveralls pytest pytest-cov
   - pip install pyalsaaudio python-lirc
 
