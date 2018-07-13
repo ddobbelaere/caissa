@@ -43,9 +43,13 @@ class TestCaissa:
 
         try:
             # try out the following sequence of commands
-            commands = ["play radio", "next", "previous", "stop radio", "exit"]
+            commands = ["play radio", "next", "prev", "stop radio"]
 
-            outs, errs = proc.communicate("\n".join(commands), timeout=2)
+            for command in commands:
+                proc.stdin.write(command + "\n")
+                time.sleep(2)
+
+            outs, errs = proc.communicate("exit\n", timeout=2)
 
             # check if all went well
             assert "Bringing Caissa to life" in errs

@@ -19,6 +19,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import speake3
 
+# TODO: take care of alterations in separate class
+
 
 class Speech:
     """
@@ -64,15 +66,3 @@ class Speech:
 
         self.engines[lang].say(message)
         self.engines[lang].talkback()
-
-
-if __name__ == "__main__":
-    # TODO: take care of alterations in separate class
-    # test the Speech class
-    speech = Speech("en")
-    speech.say("Hello, my name is Caiissa.")
-    speech.say("How are you doing?")
-
-    speech = Speech("nl")
-    speech.say("Hallo, ik heet Caïissa.")
-    speech.say("Hoe gaat het met U?")
