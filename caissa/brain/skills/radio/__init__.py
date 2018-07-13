@@ -37,7 +37,7 @@ class Radio(Skill):
     CONFIG_FNAME = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 "stations.yml")
 
-    def __init__(self, params=None):
+    def __init__(self, args=None):
         """
         Constructor
         """
@@ -57,7 +57,13 @@ class Radio(Skill):
         self.proc = None
         self.current_id = 0
 
-        if params.play_radio:
+        # initialize and start threads
+        self.process_output_thread_ = threading.Thread(
+            target=self.process_output_thread, daemon=True)
+
+        self.process_output_thread_.start()
+
+        if args.play_radio:
             self.play()
 
     def __del__(self):
@@ -121,12 +127,12 @@ class Radio(Skill):
         Play the given radio station
         """
 
-        if radio_station_id == None:
+        if radio_station_id is None:
             radio_station_id = self.current_id
 
         station_label, station_params = self.stations[radio_station_id]
 
-        self.logger.debug("Playing radio station \"{}\"".format(
+        self.logger.info("Playing radio station \"{}\"".format(
             station_label))
 
         # first stop playing
@@ -135,10 +141,12 @@ class Radio(Skill):
         cmd = "while true; do mpg123 '{}'; sleep 1; done".format(
             station_params["url"])
         self.proc = subprocess.Popen(cmd,
+                                     bufsize=1,
                                      shell=True,
                                      stdin=subprocess.PIPE,
-                                     stderr=subprocess.PIPE,
-                                     stdout=subprocess.PIPE)
+                                     stderr=subprocess.STDOUT,
+                                     stdout=subprocess.PIPE,
+                                     universal_newlines=True)
 
     def play_prev(self):
         """
@@ -161,3 +169,28 @@ class Radio(Skill):
             self.current_id = (self.current_id + 1) % len(self.stations)
 
         self.play(self.current_id)
+
+    def process_output_thread(self):
+        """
+        Process the output of the music player process
+        """
+
+        import re
+        pattern = re.compile(r"\s*ICY-META:\s*StreamTitle='([^']+)'")
+
+        while True:
+            try:
+                while True:
+                    line = self.proc.stdout.readline()
+
+                    # extract metadata
+                    match = re.match(pattern, line)
+
+                    if match:
+                        self.logger.info(
+                            "Now playing '{}'".format(match.group(1)))
+            except AttributeError:
+                # the process is not running yet
+                # sleep some time
+                time.sleep(0.2)
+                continue

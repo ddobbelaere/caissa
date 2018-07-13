@@ -36,11 +36,11 @@ class TestSense:
         with open(filename) as file:
             import re
 
-            pattern = re.compile("begin|end|"
-                                 "\s+prog = caissa|"
-                                 "\s+button = \S+|"
-                                 "\s+config = \S+|"
-                                 "\s+repeat = [0-9]+")
+            pattern = re.compile(r"begin|end|"
+                                 r"\s+prog = caissa|"
+                                 r"\s+button = \S+|"
+                                 r"\s+config = \S+|"
+                                 r"\s+repeat = [0-9]+")
 
             for line in file:
                 assert re.fullmatch(pattern, line.rstrip()) is not None
