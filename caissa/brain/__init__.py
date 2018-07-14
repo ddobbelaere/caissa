@@ -121,21 +121,28 @@ class Brain:
                 if e.cmd in ["KEY_VOLUMEUP", "KEY_VOLUMEDOWN"]:
                     import alsaaudio
 
+                    m = None
                     try:
                         m = alsaaudio.Mixer()
                     except alsaaudio.ALSAAudioError:
-                        # try PCM (default mixer on Raspberry PI)
-                        m = alsaaudio.Mixer('PCM')
+                        try:
+                            # try PCM (default mixer on Raspberry PI)
+                            m = alsaaudio.Mixer('PCM')
+                        except alsaaudio.ALSAAudioError:
+                            # no suitable mixer found
+                            self.logger.warning(
+                                "No suitable mixer found, cannot change volume.")
                     finally:
-                        direction = 1 if e.cmd == "KEY_VOLUMEUP" else -1
-                        step = 2
-                        new_volume = min(
-                            100, max(0, int(m.getvolume()[0]) + direction * step))
+                        if m is not None:
+                            direction = 1 if e.cmd == "KEY_VOLUMEUP" else -1
+                            step = 2
+                            new_volume = min(
+                                100, max(0, int(m.getvolume()[0]) + direction * step))
 
-                        self.logger.debug(
-                            "Setting volume to {}%".format(new_volume))
+                            self.logger.debug(
+                                "Setting volume to {}%".format(new_volume))
 
-                        m.setvolume(new_volume)
+                            m.setvolume(new_volume)
 
             # send event to each skill
             for skill in self.skills:

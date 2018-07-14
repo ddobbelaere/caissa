@@ -64,9 +64,10 @@ class TestCaissa:
             # check if all went well
             assert "Bringing Caissa to life" in errs
             assert "Playing radio station" in errs
-            #assert "Setting volume to" in errs
+            assert ("Setting volume to" in errs or
+                    "No suitable mixer found, cannot change volume." in errs)
             assert "Constructed new infrared input event" in errs
-            #assert "Processing text input event \"exit\"" in errs
+            assert "Processing text input event \"exit\"" in errs
 
         except subprocess.TimeoutExpired:
             import pytest
