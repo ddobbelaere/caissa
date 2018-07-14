@@ -21,6 +21,7 @@ before_script:
   - pip install coveralls pytest pytest-cov
   - pip install pyalsaaudio python-lirc
   - sudo /etc/init.d/lirc stop
+  - sudo mkdir -p /var/run/lirc
   - sudo /usr/sbin/lircd --allow-simulate
 
 # run tests
