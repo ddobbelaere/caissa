@@ -111,8 +111,11 @@ class Brain:
                     "Processing text input event \"{}\"".format(e.text))
 
                 if e.text == "exit":
-                    import sys
-                    sys.exit(0)
+                    # forced cleanup all skills
+                    for skill in self.skills:
+                        skill.__del__()
+
+                    return
 
             elif type(e) is InfraredInputEvent:
                 if e.cmd in ["KEY_VOLUMEUP", "KEY_VOLUMEDOWN"]:

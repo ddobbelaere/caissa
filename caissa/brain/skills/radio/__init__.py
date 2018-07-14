@@ -19,7 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import logging
 import os
-import psutil
+import signal
 import subprocess
 import threading
 import time
@@ -113,12 +113,7 @@ class Radio(Skill):
 
         # terminate a possibly active player process
         if self.is_playing:
-            process = psutil.Process(self.proc.pid)
-
-            for child_process in process.children(recursive=True):
-                child_process.kill()
-
-            process.kill()
+            os.killpg(os.getpgid(self.proc.pid), signal.SIGTERM)
 
             self.proc = None
 
@@ -146,7 +141,8 @@ class Radio(Skill):
                                      stdin=subprocess.PIPE,
                                      stderr=subprocess.STDOUT,
                                      stdout=subprocess.PIPE,
-                                     universal_newlines=True)
+                                     universal_newlines=True,
+                                     preexec_fn=os.setsid)
 
     def play_prev(self):
         """

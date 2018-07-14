@@ -27,9 +27,4 @@ class Skill:
     to the senses via the brain.
     """
 
-    def __init__(self, args=None):
-        """
-        Constructor
-        """
-
-        pass
+    pass
