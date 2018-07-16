@@ -7,9 +7,9 @@ python:
 
 # install project dependencies
 before_install:
-  - sudo apt-get install -y libasound2-dev liblircclient-dev libpulse-dev swig
-  - sudo apt-get install -y espeak
-  - sudo apt-get install -y mpg123
+  - sudo apt-get install libasound2-dev liblircclient-dev libpulse-dev swig
+  - sudo apt-get install espeak
+  - sudo apt-get install mpg123
 
 # install project
 install:
@@ -32,6 +32,7 @@ script:
 after_success:
   - coveralls
 
+# deploy to PyPI on tagged commits
 deploy:
   provider: pypi
   user: "ddobbelaere"

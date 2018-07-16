@@ -27,4 +27,26 @@ class Skill:
     to the senses via the brain.
     """
 
-    pass
+    def _connect_to_brain(self, brain):
+        """
+        Connect the skill to the brain
+        """
+
+        # store reference to brain
+        self.brain = brain
+
+    def handle_event(self, e):
+        """
+        Handle the given event
+        """
+
+        # override this method in the subclass skill
+        pass
+
+    def say(self, message):
+        """
+        Say the given message
+        """
+
+        # TODO
+        pass

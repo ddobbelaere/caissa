@@ -89,6 +89,7 @@ class Brain:
                             self.logger.debug(
                                 "Loading skill \"{}\" ".format(attr))
                             self.skills.append(cls(args))
+                            self.skills[-1]._connect_to_brain(self)
                     except TypeError:
                         pass
             except:
@@ -118,32 +119,42 @@ class Brain:
                     return
 
             elif type(e) is InfraredInputEvent:
+                self.logger.debug(
+                    "Processing infrared input event \"{}\"".format(e.cmd))
+
                 if e.cmd in ["KEY_VOLUMEUP", "KEY_VOLUMEDOWN"]:
-                    import alsaaudio
-
-                    m = None
-                    try:
-                        m = alsaaudio.Mixer()
-                    except alsaaudio.ALSAAudioError:
-                        try:
-                            # try PCM (default mixer on Raspberry PI)
-                            m = alsaaudio.Mixer('PCM')
-                        except alsaaudio.ALSAAudioError:
-                            # no suitable mixer found
-                            self.logger.warning(
-                                "No suitable mixer found, cannot change volume.")
-                    finally:
-                        if m is not None:
-                            direction = 1 if e.cmd == "KEY_VOLUMEUP" else -1
-                            step = 2
-                            new_volume = min(
-                                100, max(0, int(m.getvolume()[0]) + direction * step))
-
-                            self.logger.debug(
-                                "Setting volume to {}%".format(new_volume))
-
-                            m.setvolume(new_volume)
+                    direction = 1 if e.cmd == "KEY_VOLUMEUP" else -1
+                    self.change_volume(direction)
 
             # send event to each skill
             for skill in self.skills:
                 skill.handle_event(e)
+
+    def change_volume(self, direction=1):
+        """
+        Change the volume
+        """
+
+        import alsaaudio
+
+        mixer = None
+        try:
+            mixer = alsaaudio.Mixer()
+        except alsaaudio.ALSAAudioError:
+            try:
+                # try PCM (default mixer on Raspberry PI)
+                mixer = alsaaudio.Mixer("PCM")
+            except alsaaudio.ALSAAudioError:
+                # no suitable mixer found
+                self.logger.warning(
+                    "No suitable mixer found, cannot change volume.")
+        finally:
+            if mixer is not None:
+                step = 2
+                new_volume = min(
+                    100, max(0, int(mixer.getvolume()[0]) + direction * step))
+
+                self.logger.debug(
+                    "Setting volume to {}%".format(new_volume))
+
+                mixer.setvolume(new_volume)

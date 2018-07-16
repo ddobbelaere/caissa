@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/ddobbelaere/caissa.svg?branch=master)](https://travis-ci.org/ddobbelaere/caissa)
 [![Coverage Status](https://coveralls.io/repos/github/ddobbelaere/caissa/badge.svg?branch=master)](https://coveralls.io/github/ddobbelaere/caissa?branch=master)
+[![PyPI version](https://badge.fury.io/py/caissa.svg)](https://badge.fury.io/py/caissa)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1959/badge)](https://bestpractices.coreinfrastructure.org/projects/1959)
 
 Caissa is an intelligent voice-controlled personal assistant (still under development).

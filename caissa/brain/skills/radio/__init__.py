@@ -58,10 +58,10 @@ class Radio(Skill):
         self.current_id = 0
 
         # initialize and start threads
-        self.process_output_thread_ = threading.Thread(
+        self._process_output_thread = threading.Thread(
             target=self.process_output_thread, daemon=True)
 
-        self.process_output_thread_.start()
+        self._process_output_thread.start()
 
         if args.play_radio:
             self.play()
@@ -173,6 +173,8 @@ class Radio(Skill):
 
         import re
         pattern = re.compile(r"\s*ICY-META:\s*StreamTitle='([^']+)'")
+        history = []
+        MAX_HIST_SIZE = 5
 
         while True:
             try:
@@ -183,10 +185,18 @@ class Radio(Skill):
                     match = re.match(pattern, line)
 
                     if match:
-                        self.logger.info(
-                            "Now playing '{}'".format(match.group(1)))
+                        # check if the info is already in the history
+                        if line not in history:
+                            # append to history
+                            history = history[:MAX_HIST_SIZE - 1] + [line]
+
+                            self.logger.info(
+                                "Now playing '{}'".format(match.group(1)))
             except AttributeError:
                 # the process is not running yet
+                # clear history
+                history = []
+
                 # sleep some time
                 time.sleep(0.2)
                 continue
