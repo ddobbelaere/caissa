@@ -23,7 +23,7 @@ Install dependencies:
 
 ```sh
 sudo apt-get update
-sudo apt-get install -y espeak mpg123 libasound2-dev libpulse-dev python3-setuptools swig
+sudo apt-get install -y espeak mbrola-en1 mbrola-nl2 mpg123 libasound2-dev libpulse-dev python3-setuptools swig
 ```
 
 Optionally, if you want to talk to Caissa via remote control, install LIRC (by following [this guide](https://github.com/josemotta/IoT.Starter.Api/tree/master/gpio-base#lirc-linux-infrared-remote-control-for-raspberry-pi) for Raspbian Stretch) and the following dependencies:

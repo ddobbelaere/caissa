@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.4.0
+
+- Added `speech`
+- Added voice feedback to `radio skill`
+- Added *now playing* info to `radio skill` (visible in `--debug` mode)
+- Added volume control via remote
+- Automated testing of all major components
+
 ## v0.3.0
 
 First functional release (with support for `radio skill` and various inputs)
