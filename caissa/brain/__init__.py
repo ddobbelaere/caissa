@@ -88,8 +88,7 @@ class Brain:
                         if issubclass(cls, Skill) and attr != "Skill":
                             self.logger.debug(
                                 "Loading skill \"{}\" ".format(attr))
-                            self.skills.append(cls(args))
-                            self.skills[-1]._connect_to_brain(self)
+                            self.skills.append(cls(self, args))
                     except TypeError:
                         pass
             except:
@@ -129,6 +128,13 @@ class Brain:
             # send event to each skill
             for skill in self.skills:
                 skill.handle_event(e)
+
+    def say(self, message):
+        """
+        Say the given message
+        """
+
+        self.speech.say(message)
 
     def change_volume(self, direction=1):
         """

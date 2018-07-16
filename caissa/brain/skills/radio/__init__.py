@@ -37,9 +37,9 @@ class Radio(Skill):
     CONFIG_FNAME = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 "stations.yml")
 
-    def __init__(self, args=None):
+    def init(self, args=None):
         """
-        Constructor
+        Initialize skill
         """
 
         # initialize logger
@@ -80,7 +80,8 @@ class Radio(Skill):
 
         if type(e) is TextInputEvent:
             if e.text == "play radio":
-                self.play()
+                if not self.is_playing:
+                    self.play()
             elif e.text == "prev":
                 self.play_prev()
             elif e.text == "next":
@@ -132,6 +133,9 @@ class Radio(Skill):
 
         # first stop playing
         self.stop_playing()
+
+        # say radio station
+        self.say(station_params["name"])
 
         cmd = "while true; do mpg123 '{}'; sleep 1; done".format(
             station_params["url"])
@@ -188,10 +192,15 @@ class Radio(Skill):
                         # check if the info is already in the history
                         if line not in history:
                             # append to history
-                            history = history[:MAX_HIST_SIZE - 1] + [line]
+                            history = [line] + history[:MAX_HIST_SIZE - 1]
 
                             self.logger.info(
                                 "Now playing '{}'".format(match.group(1)))
+                        else:
+                            # push line to top
+                            line_index = history.index(line)
+                            history = [line] + history[:line_index] + \
+                                history[line_index + 1:]
             except AttributeError:
                 # the process is not running yet
                 # clear history

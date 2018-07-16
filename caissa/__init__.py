@@ -35,7 +35,7 @@ class Caissa:
 
         # initialize senses
         sense = Sense(args=args)
-        speech = Speech()
+        speech = Speech(args=args)
 
         # initialize brain
         self.brain = Brain(args=args, hearing=None, sense=sense, speech=speech)

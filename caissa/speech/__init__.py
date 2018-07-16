@@ -27,7 +27,7 @@ class Speech:
     Caissa's speech
     """
 
-    def __init__(self, default_lang="en"):
+    def __init__(self, args):
         """
         Constructor
         """
@@ -53,8 +53,13 @@ class Speech:
             for option, value in self.lang_options[lang].items():
                 self.engines[lang].set(option, value)
 
+            self.engines[lang].set("amplitude", "200")
+            self.engines[lang].set("nopause")
+
         # store default language
-        self.default_lang = default_lang
+        self.default_lang = args.language
+
+        assert self.default_lang in self.engines
 
     def say(self, message, lang=None):
         """
@@ -64,5 +69,7 @@ class Speech:
         if lang is None:
             lang = self.default_lang
 
-        self.engines[lang].say(message)
+        assert lang in message
+
+        self.engines[lang].say(message[lang])
         self.engines[lang].talkback()

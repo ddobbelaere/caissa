@@ -47,9 +47,9 @@ class TestCaissa:
             text_inputs = ["play radio", "next", "prev", "stop radio"]
 
             for text_input in text_inputs:
+                time.sleep(4)
                 proc.stdin.write(text_input + "\n")
                 proc.stdin.flush()
-                time.sleep(2)
 
             # try out the following sequence of infrared inputs
             ir_inputs = ["KEY_PLAY", "KEY_NEXT", "KEY_PREVIOUS", "KEY_PLAY",

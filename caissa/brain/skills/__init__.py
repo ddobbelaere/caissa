@@ -27,13 +27,24 @@ class Skill:
     to the senses via the brain.
     """
 
-    def _connect_to_brain(self, brain):
+    def __init__(self, brain, args=None):
         """
-        Connect the skill to the brain
+        Constructor
         """
 
         # store reference to brain
         self.brain = brain
+
+        # initialize skill
+        self.init(args)
+
+    def init(self, args=None):
+        """
+        Initialize skill
+        """
+
+        # override this method in the subclass skill
+        pass
 
     def handle_event(self, e):
         """
@@ -48,5 +59,4 @@ class Skill:
         Say the given message
         """
 
-        # TODO
-        pass
+        self.brain.say(message)

@@ -30,11 +30,13 @@ def main(args=None):
 
     # parse arguments
     parser = argparse.ArgumentParser(
-        description="Caissa voice-controlled personal assistant")
+        description="Caissa voice-controlled personal assistant",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("--daemon", action="store_true",
                         help="run as daemon (do not exit after end-of-file)")
     parser.add_argument("--debug", action="store_true",
                         help="enable debug output")
+    parser.add_argument("--language", help="language", default="en")
     parser.add_argument("--play-radio", action="store_true",
                         help="play radio on startup")
     args = parser.parse_args(args)
