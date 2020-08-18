@@ -145,15 +145,11 @@ class Brain:
 
         mixer = None
         try:
-            mixer = alsaaudio.Mixer()
-        except alsaaudio.ALSAAudioError:
-            try:
-                # try PCM (default mixer on Raspberry PI)
-                mixer = alsaaudio.Mixer("PCM")
-            except alsaaudio.ALSAAudioError:
-                # no suitable mixer found
-                self.logger.warning(
-                    "No suitable mixer found, cannot change volume.")
+            mixer = alsaaudio.Mixer(alsaaudio.mixers()[0])
+        except:
+            # no suitable mixer found
+            self.logger.warning(
+                "No suitable mixer found, cannot change volume.")
         finally:
             if mixer is not None:
                 step = 2
