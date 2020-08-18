@@ -17,22 +17,35 @@ Currently she is able to play your favorite internet radio. Some of her upcoming
 
 ## Building and running Caissa
 
-### Debian/Raspbian/Ubuntu
+### Debian and derivatives
 
-Install dependencies:
+#### Dependencies
 
 ```sh
-sudo apt-get update
-sudo apt-get install -y espeak mbrola-en1 mbrola-nl2 mpg123 libasound2-dev libpulse-dev python3-setuptools swig
+sudo apt update
+sudo apt install -y espeak mpg123 libasound2-dev libpulse-dev python3-setuptools
 ```
 
-Optionally, if you want to talk to Caissa via remote control, install LIRC (by following [this guide](https://github.com/josemotta/IoT.Starter.Api/tree/master/gpio-base#lirc-linux-infrared-remote-control-for-raspberry-pi) for Raspbian Stretch) and the following dependencies:
+Optionally, if you want to talk to Caissa via remote control, install LIRC (by following [this guide](https://github.com/josemotta/IoT.Starter.Api/tree/master/gpio-base#lirc-linux-infrared-remote-control-for-raspberry-pi) for Raspbian Stretch, apply [this workaround](https://github.com/raspberrypi/linux/issues/2993#issuecomment-497420228) for Raspbian Buster) and the following dependencies:
 
 ```sh
 sudo apt-get install -y cython gcc liblircclient-dev python3-dev
 sudo pip3 install pyalsaaudio python-lirc
 ```
 
+#### Notes for Raspbian Buster
+ - The PyPi version of `python-lirc` is still shipped (as of August 18, 2020) with a cython generated C file that is incompatible with Python 3.7.
+ - Build/install from the sources instead:
+ 
+    ```
+    sudo apt install -y cython3 gcc liblircclient-dev python{,3}-{dev,setuptools}
+    git clone https://github.com/tompreston/python-lirc.git
+    cd python-lirc/
+    make py3 && sudo python3 setup.py install
+    sudo pip3 install -U .
+    ```
+
+#### Installation
 Install the latest stable release:
 
 ```sh
