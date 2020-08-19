@@ -101,7 +101,7 @@ class Radio(Skill):
                 self.play_prev()
             elif e.cmd == "KEY_NEXT":
                 self.play_next()
-            elif e.cmd == "KEY_DISPLAY":
+            elif e.cmd == "DISPLAY":
                 self.toggle_info()
 
     @property
