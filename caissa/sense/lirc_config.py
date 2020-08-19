@@ -29,7 +29,7 @@ def get_lircrc_filename(prog="caissa"):
     keys += ["KEY_NEXT", "KEY_PREVIOUS"]
     keys += ["KEY_PLAY"]
     keys += ["KEY_VOLUMEUP", "KEY_VOLUMEDOWN"]
-    keys += ["KEY_DISPLAY"]
+    keys += ["DISPLAY"]
 
     # add the wild card key as last
     keys += ["*"]
