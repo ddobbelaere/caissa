@@ -56,6 +56,7 @@ class Radio(Skill):
         # initialize other variables
         self.proc = None
         self.current_id = 0
+        self.info_on = False
 
         # initialize and start threads
         self._process_output_thread = threading.Thread(
@@ -88,6 +89,8 @@ class Radio(Skill):
                 self.play_next()
             elif e.text == "stop radio":
                 self.stop_playing()
+            elif e.text == "toggle info":
+                self.toggle_info()
         elif type(e) is InfraredInputEvent:
             if e.cmd == "KEY_PLAY":
                 if not self.is_playing:
@@ -98,6 +101,8 @@ class Radio(Skill):
                 self.play_prev()
             elif e.cmd == "KEY_NEXT":
                 self.play_next()
+            elif e.cmd == "KEY_DISPLAY":
+                self.toggle_info()
 
     @property
     def is_playing(self):
@@ -135,7 +140,7 @@ class Radio(Skill):
         self.stop_playing()
 
         # say radio station
-        self.say(station_params["name"])
+        self.say(station_params["name"], sync=True)
 
         cmd = "while true; do mpg123 '{}'; sleep 1; done".format(
             station_params["url"])
@@ -169,6 +174,13 @@ class Radio(Skill):
             self.current_id = (self.current_id + 1) % len(self.stations)
 
         self.play(self.current_id)
+    
+    def toggle_info(self):
+        """
+        Toggle info state.
+        """
+
+        self.info_on = not self.info_on
 
     def process_output_thread(self):
         """
@@ -189,18 +201,23 @@ class Radio(Skill):
                     match = re.match(pattern, line)
 
                     if match:
+                        info = match.group(1)
+
+                        if self.info_on:
+                            self.say(info, sync=False)
+
                         # check if the info is already in the history
-                        if line not in history:
+                        if info not in history:
                             # append to history
-                            history = [line] + history[:MAX_HIST_SIZE - 1]
+                            history = [info] + history[:MAX_HIST_SIZE - 1]
 
                             self.logger.info(
-                                "Now playing '{}'".format(match.group(1)))
+                                "Now playing '{}'".format(info))
                         else:
                             # push line to top
-                            line_index = history.index(line)
-                            history = [line] + history[:line_index] + \
-                                history[line_index + 1:]
+                            info_index = history.index(info)
+                            history = [info] + history[:info_index] + \
+                                history[info_index + 1:]
             except AttributeError:
                 # the process is not running yet
                 # clear history

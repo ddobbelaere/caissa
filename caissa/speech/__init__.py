@@ -17,7 +17,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import speake3
+import espeakng
+import logging
 
 # TODO: take care of alterations in separate class
 
@@ -32,36 +33,30 @@ class Speech:
         Constructor
         """
 
-        # define engine language options
-        self.lang_options = {
-            "en": {
-                "voice": "english-mb-en1+f4",
-                "speed": "100",
-                "pitch": "60"
-            },
-            "nl": {
-                "voice": "dutch-mbrola-2+f4",
-                "speed": "100"
-            }
+         # initialize logger
+        self.logger = logging.getLogger(__name__)
+
+        # Define preferred voices.
+        self.preferred_voices = {
+            "en": "english-mb-en1+f4",
+            "nl": "dutch-mbrola-2+f4"
         }
 
-        # instantiate text to speech engines for each language
-        self.engines = {lang: speake3.Speake() for lang in self.lang_options}
+        # Instantiate text to speech engines for each language
+        self.engines = {lang: espeakng.ESpeakNG() for lang in self.preferred_voices}
 
-        # set engine options
-        for lang in self.lang_options:
-            for option, value in self.lang_options[lang].items():
-                self.engines[lang].set(option, value)
-
-            self.engines[lang].set("amplitude", "200")
-            self.engines[lang].set("nopause")
+        # Set engine settings.
+        for lang in self.preferred_voices:
+            self.engines[lang].voice = self.preferred_voices[lang]
+            self.engines[lang].speed = 100
+            self.engines[lang].volume = 200
 
         # store default language
         self.default_lang = args.language
 
         assert self.default_lang in self.engines
 
-    def say(self, message, lang=None):
+    def say(self, message, lang=None, sync=False):
         """
         Say the given message
         """
@@ -69,7 +64,13 @@ class Speech:
         if lang is None:
             lang = self.default_lang
 
-        assert lang in message
+        text = ""
+        if isinstance(message, dict):
+            if lang in message:
+                text = message[lang]
+            else:
+                self.logger.warning("Message has no translation for requested language '{}'.".format(lang))
+        else: 
+            text = message
 
-        self.engines[lang].say(message[lang])
-        self.engines[lang].talkback()
+        self.engines[lang].say(text, sync=sync)

@@ -129,12 +129,12 @@ class Brain:
             for skill in self.skills:
                 skill.handle_event(e)
 
-    def say(self, message):
+    def say(self, *args, **kwargs):
         """
         Say the given message
         """
 
-        self.speech.say(message)
+        self.speech.say(*args, **kwargs)
 
     def change_volume(self, direction=1):
         """

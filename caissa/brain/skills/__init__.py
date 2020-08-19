@@ -54,9 +54,9 @@ class Skill:
         # override this method in the subclass skill
         pass
 
-    def say(self, message):
+    def say(self, *args, **kwargs):
         """
         Say the given message
         """
 
-        self.brain.say(message)
+        self.brain.say(*args, **kwargs)
